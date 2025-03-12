@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>計算機ツール - ToolX</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <h1><a href="index.html">ToolX</a></h1>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <h1>関数電卓</h1>
+            <p>数学の計算をサポート</p>
+        </section>
+
+        <section id="content">
+            <div class="calculator-card">
+                <div class="display">
+                    <input type="text" id="result" readonly>
+                </div>
+                <div class="function-buttons">
+                    <button class="calc-btn func-btn" data-value="sin">sin</button>
+                    <button class="calc-btn func-btn" data-value="cos">cos</button>
+                    <button class="calc-btn func-btn" data-value="tan">tan</button>
+                    <button class="calc-btn func-btn" data-value="sqrt">√</button>
+                    <button class="calc-btn func-btn" data-value="log">log</button> <!-- 追加 -->
+                    <button class="calc-btn func-btn" data-value="exp">exp</button> <!-- 追加 -->
+                </div>
+                <div class="buttons">
+                    <button class="calc-btn" data-value="(">(</button>
+                    <button class="calc-btn" data-value=")">)</button>
+                    <button class="calc-btn" data-value="C">C</button>
+                    <button class="calc-btn" data-value="←">←</button>
+                    <button class="calc-btn" data-value="7">7</button>
+                    <button class="calc-btn" data-value="8">8</button>
+                    <button class="calc-btn" data-value="9">9</button>
+                    <button class="calc-btn" data-value="÷">÷</button>
+                    <button class="calc-btn" data-value="4">4</button>
+                    <button class="calc-btn" data-value="5">5</button>
+                    <button class="calc-btn" data-value="6">6</button>
+                    <button class="calc-btn" data-value="×">×</button>
+                    <button class="calc-btn" data-value="1">1</button>
+                    <button class="calc-btn" data-value="2">2</button>
+                    <button class="calc-btn" data-value="3">3</button>
+                    <button class="calc-btn" data-value="-">-</button>
+                    <button class="calc-btn" data-value="0">0</button>
+                    <button class="calc-btn" data-value=".">.</button>
+                    <button class="calc-btn" data-value="=">=</button>
+                    <button class="calc-btn" data-value="+">+</button>
+                </div>
+                <button class="home-btn" onclick="location.href='index.html'">ホームに戻る</button>
+            </div>
+        </section>
+    </main>
+
+    <button class="theme-switch" id="theme-toggle" aria-label="テーマ切り替え">
+        <svg viewBox="0 0 24 24" class="sun">
+            <path d="M12 2L12 5M12 19L12 22M4 12L1 12M23 12L20 12M20 4L17 7M4 20L7 17M20 20L17 17M4 4L7 7M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7Z"/>
+        </svg>
+    </button>
+
+    <footer>
+        <p>&copy; 2024 ToolX. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="calculator.js"></script>
+</body>
+</html>

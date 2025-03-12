@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロキシツール - ToolX</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <h1><a href="index.html">ToolX</a></h1>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <h1>プロキシツール</h1>
+            <p>安全なインターネット接続を提供</p>
+            <p>あらゆるフィルタリングを回避します</p>
+        </section>
+
+        <section id="content">
+            <div class="proxy-card">
+                <div id="server-status" style="margin-bottom:1rem;font-weight:bold;">接続確認中...</div>
+                <input type="url" id="url-input" class="proxy-input" placeholder="URLを入力またはキーワードを検索">
+                <button id="proxy-btn" class="proxy-button">アクセス</button>
+                <div id="proxy-content" class="proxy-frame"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 ToolX. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="proxy.js"></script>
+</body>
+</html>

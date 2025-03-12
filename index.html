@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Simple Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <h1><a href="#home">ToolX</a></h1>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#join">Join</a></li> <!-- 追加 -->
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero" class="animate-fade-in">
+            <h1>Welcome</h1>
+            <p>子供が喜ぶツール集のホームページへようこそ</p>
+        </section>
+
+        <section id="about" class="hidden" style="text-align: center;">
+            <h2>About Us</h2>
+            <p>私たちToolXは、優れた技術を利用して、様々なツールを提供しています</p>
+        </section>
+
+        <section id="content" class="hidden">
+            <div class="card">
+                <h2>プロキシツール</h2>
+                <p>あらゆるフィルタリングを回避します</p>
+                <button onclick="location.href='proxy.html'">使ってみる</button>
+            </div>
+            <div class="card">
+                <h2>計算機ツール</h2>
+                <p>あなたの宿題をお手伝いします</p>
+                <button onclick="location.href='calculator.html'">使ってみる</button>
+            </div>
+            <div class="card">
+                <h2>AIツール</h2>
+                <p>未実装...</p>
+                <button onclick="location.href='ai.html'">使ってみる</button>
+            </div>
+        </section>
+
+        <section id="join" class="hidden">
+            <h2>参加方法</h2>
+            <p>以下の手順に従って、簡単に参加できます。</p>
+            <ol>
+                <li>ウェブサイトのトップページにアクセスします。</li>
+                <li>「参加する」ボタンをクリックします。</li>
+                <li>必要な情報を入力し、送信します。</li>
+                <li>確認メールが届きますので、指示に従ってください。</li>
+            </ol>
+        </section>
+    </main>
+
+    <button class="theme-switch" id="theme-toggle" aria-label="テーマ切り替え">
+        <svg viewBox="0 0 24 24" class="sun">
+            <path d="M12 2L12 5M12 19L12 22M4 12L1 12M23 12L20 12M20 4L17 7M4 20L7 17M20 20L17 17M4 4L7 7M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7Z"/>
+        </svg>
+    </button>
+
+    <footer>
+        <p>&copy; 2025 ToolX. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

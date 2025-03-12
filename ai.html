@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIツール - ToolX</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <h1><a href="index.html">ToolX</a></h1>
+        </div>
+    </nav>
+
+    <main>
+        <section id="hero">
+            <h1>AIチャット</h1>
+            <p>AIがあなたの学習をサポートします</p>
+        </section>
+
+        <section id="content">
+            <div class="ai-card">
+                <div class="chat-container" id="chat-container"></div>
+                <div class="input-container">
+                    <textarea id="user-input" placeholder="メッセージを入力..." rows="3"></textarea>
+                    <button id="send-btn" class="ai-button">送信</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <button class="theme-switch" id="theme-toggle" aria-label="テーマ切り替え">
+        <svg viewBox="0 0 24 24" class="sun">
+            <path d="M12 2L12 5M12 19L12 22M4 12L1 12M23 12L20 12M20 4L17 7M4 20L7 17M20 20L17 17M4 4L7 7M12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C14.76 17 17 14.76 17 12C17 9.24 14.76 7 12 7Z"/>
+        </svg>
+    </button>
+
+    <footer>
+        <p>&copy; 2024 ToolX. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+    <script src="ai.js"></script>
+</body>
+</html>
