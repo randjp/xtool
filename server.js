@@ -1,11 +1,20 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 
 const app = express();
+
+// レート制限の設定
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15分
+    max: 100 // IPアドレスごとの最大リクエスト数
+});
+
 app.use(cors());
 app.use(express.json());
+app.use(limiter);
 
 // 静的ファイルの提供
 app.use(express.static(path.join(__dirname)));
@@ -16,21 +25,29 @@ app.post('/proxy', async (req, res) => {
         let { url } = req.body;
         if (!url) return res.status(400).send('URLが必要です');
 
+        // 禁止URLのチェック
+        const blockedDomains = [
+            'localhost', '127.0.0.1', '0.0.0.0',
+            'internal.company.com'
+        ];
+        
+        const urlObj = new URL(url);
+        if (blockedDomains.some(domain => urlObj.hostname.includes(domain))) {
+            return res.status(403).send('このURLにはアクセスできません');
+        }
+
         console.log('Accessing:', url);
 
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0',
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8',
-                'Cache-Control': 'no-cache',
-                'Upgrade-Insecure-Requests': '1',
-                'Referer': 'https://www.google.com/',
-                'Origin': 'https://www.google.com/'
+                'Accept-Language': 'ja,en-US;q=0.9,en;q=0.8'
             },
             redirect: 'follow',
-            follow: 10
+            follow: 5,
+            timeout: 10000
         });
 
         // レスポンスヘッダーの処理
@@ -46,8 +63,12 @@ app.post('/proxy', async (req, res) => {
 
     } catch (error) {
         console.error('Proxy error:', error);
-        res.status(500).send('エラー: ' + error.message);
+        res.status(500).send('エラーが発生しました');
     }
 });
 
-app.listen(3000, '0.0.0.0', () => console.log('Server ready on port 3000'));
+// SSLとポート設定
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
+});

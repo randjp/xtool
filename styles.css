@@ -279,11 +279,14 @@ footer {
     border-radius: 10px;
     background: white;
     overflow: hidden;
+    display: block;
 }
 
 .proxy-frame img {
     max-width: 100%;
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .proxy-frame pre {
@@ -298,6 +301,22 @@ footer {
     margin: 0;
     padding: 0;
     display: block;
+}
+
+/* プロキシフレームのエラー表示 */
+.proxy-error {
+    padding: 20px;
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* プロキシコンテンツのダークモード対応 */
+[data-theme="dark"] .proxy-frame {
+    background: var(--secondary-color);
 }
 
 .status-indicator {
