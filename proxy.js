@@ -6,11 +6,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // サーバー状態チェック
     const checkServer = async () => {
-        serverStatus.textContent = 'サーバー接続済み';
-        serverStatus.style.color = 'green';
+        try {
+            const response = await fetch('https://api.allorigins.win/raw?url=https://www.google.com');
+            if (response.ok) {
+                serverStatus.textContent = 'サーバー接続済み';
+                serverStatus.style.color = 'green';
+            }
+        } catch {
+            serverStatus.textContent = '接続エラー';
+            serverStatus.style.color = 'red';
+        }
     };
 
-    checkServer();
+    // プロキシサービスのリスト
+    const proxyServices = [
+        {
+            name: 'allorigins',
+            url: (target) => `https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`,
+            contentType: 'raw'
+        },
+        {
+            name: 'corsProxy',
+            url: (target) => `https://corsproxy.io/?${encodeURIComponent(target)}`,
+            contentType: 'raw'
+        }
+    ];
+
+    // URLをチェックして整形
+    const formatUrl = (input) => {
+        if (!input) return null;
+        input = input.trim();
+        
+        if (input.includes(' ') || !input.includes('.')) {
+            return `https://www.google.com/search?q=${encodeURIComponent(input)}`;
+        }
+        
+        return input.match(/^https?:\/\//i) ? input : `https://${input}`;
+    };
+
+    // プロキシアクセス処理
+    const accessProxy = async (url) => {
+        proxyContent.innerHTML = '<div style="text-align:center;padding:20px;">読み込み中...</div>';
+
+        for (const service of proxyServices) {
+            try {
+                const proxyUrl = service.url(url);
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '800px';
+                iframe.style.border = 'none';
+                iframe.setAttribute('sandbox', 'allow-forms allow-scripts allow-same-origin');
+                iframe.src = proxyUrl;
+
+                const loadPromise = new Promise((resolve, reject) => {
+                    iframe.onload = resolve;
+                    iframe.onerror = reject;
+                    setTimeout(reject, 10000); // 10秒タイムアウト
+                });
+
+                proxyContent.innerHTML = '';
+                proxyContent.appendChild(iframe);
+                await loadPromise;
+                return; // 成功したら終了
+
+            } catch (error) {
+                console.warn(`${service.name} failed:`, error);
+                continue; // 次のサービスを試す
+            }
+        }
+
+        // すべて失敗した場合は直接リンク
+        const directLink = `
+            <div style="text-align:center;padding:20px;">
+                <p>プロキシでのアクセスに失敗しました。</p>
+                <a href="${url}" target="_blank" rel="noopener noreferrer">
+                    直接アクセスする（新しいタブで開きます）
+                </a>
+            </div>`;
+        proxyContent.innerHTML = directLink;
+    };
+
+    proxyBtn.addEventListener('click', async () => {
+        try {
+            const url = formatUrl(urlInput.value);
+            if (!url) throw new Error('URLを入力してください');
+            await accessProxy(url);
+        } catch (error) {
+            console.error('Error:', error);
+            proxyContent.innerHTML = `
+                <div class="proxy-error">
+                    <p>${error.message}</p>
+                </div>`;
+        }
+    });
 
     urlInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -19,72 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    proxyBtn.addEventListener('click', async () => {
-        try {
-            let url = urlInput.value.trim();
-            if (!url) throw new Error('URLを入力してください');
-
-            // URL処理の改善
-            if (!url.match(/^https?:\/\//)) {
-                const words = url.split(/\s+/);
-                if (words.length > 1 || !url.includes('.')) {
-                    url = `https://www.google.com/search?q=${encodeURIComponent(url)}`;
-                } else {
-                    url = 'https://' + url;
-                }
-            }
-
-            proxyContent.innerHTML = '<div style="text-align:center;padding:20px;">読み込み中...</div>';
-
-            // 複数のプロキシサービスを用意
-            const proxyUrls = [
-                `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                `https://cors-anywhere.herokuapp.com/${url}`
-            ];
-
-            let succeeded = false;
-            for (const proxyUrl of proxyUrls) {
-                try {
-                    const iframe = document.createElement('iframe');
-                    iframe.src = proxyUrl;
-                    iframe.className = 'proxy-frame';
-                    iframe.sandbox = 'allow-same-origin allow-scripts allow-forms';
-                    
-                    // エラーハンドリング
-                    iframe.onerror = () => {
-                        throw new Error('読み込みエラー');
-                    };
-
-                    // 読み込み成功時
-                    iframe.onload = () => {
-                        succeeded = true;
-                    };
-
-                    proxyContent.innerHTML = '';
-                    proxyContent.appendChild(iframe);
-
-                    // 5秒待って成功確認
-                    await new Promise(resolve => setTimeout(resolve, 5000));
-                    if (succeeded) break;
-
-                } catch (error) {
-                    console.log('Proxy attempt failed:', error);
-                    continue;
-                }
-            }
-
-            if (!succeeded) {
-                throw new Error('すべてのプロキシサーバーでアクセスに失敗しました');
-            }
-
-        } catch (error) {
-            console.error('Error:', error);
-            proxyContent.innerHTML = `
-                <div style="color:red;text-align:center;padding:20px;">
-                    エラー: ${error.message}<br>
-                    別のURLを試してください。
-                </div>`;
-        }
-    });
+    // 初期チェック実行
+    checkServer();
 });

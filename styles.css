@@ -274,12 +274,11 @@ footer {
 
 .proxy-frame {
     width: 100%;
-    min-height: 800px;
+    height: 800px;
     border: 1px solid var(--border-color);
     border-radius: 10px;
     background: white;
-    overflow: hidden;
-    display: block;
+    margin-top: 1rem;
 }
 
 .proxy-frame img {
@@ -305,12 +304,12 @@ footer {
 
 /* プロキシフレームのエラー表示 */
 .proxy-error {
-    padding: 20px;
-    color: #dc3545;
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
+    padding: 1rem;
+    margin: 1rem 0;
     border-radius: 10px;
-    margin: 10px 0;
+    background-color: #fff5f5;
+    border: 1px solid #feb2b2;
+    color: #c53030;
     text-align: center;
 }
 
